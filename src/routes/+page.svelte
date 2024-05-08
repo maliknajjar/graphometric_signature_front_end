@@ -34,7 +34,7 @@
             const timeDiff = time - prev_time;
             const speed = distance / timeDiff;
 
-            console.log('OOOOOOOOOOOOOOOOOOOOOOOO');
+            console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
             console.log('x, y: ', x, y);
             console.log('distance: ', distance);
             console.log('prev_time: ', prev_time);
@@ -58,8 +58,8 @@
             prev_time = time;
         });
 
-        canvas.addEventListener('pointerup', function() {
-            isDrawing = false;
+        canvas.addEventListener('pointerover', function() {
+            console.log('Pointer Over Event');
         });
 
         canvas.addEventListener('pointerup', function() {
