@@ -11,13 +11,13 @@
         let prev_time: number = 0;
 
         if (!ctx) {
-            throw new Error("Context is null");
             alert('Drawing Context is null')
+            throw new Error("Context is null");
         }
 
         let isDrawing = false;
 
-        canvas.addEventListener('mousedown', function(event) {
+        canvas.addEventListener('pointerdown', function(event) {
             isDrawing = true;
             const x = event.clientX - canvas.offsetLeft;
             const y = event.clientY - canvas.offsetTop;
@@ -25,19 +25,30 @@
             ctx.moveTo(x, y);
         });
 
-        canvas.addEventListener('mousemove', function(event) {
+        canvas.addEventListener('pointermove', function(event) {
             if (!isDrawing) return;
             const x = event.clientX - canvas.offsetLeft;
             const y = event.clientY - canvas.offsetTop;
-            const time = new Date().getTime();
+            const time = event.timeStamp;
             const distance = Math.sqrt(Math.pow(x - prev_x, 2) + Math.pow(y - prev_y, 2)); 
             const timeDiff = time - prev_time;
             const speed = distance / timeDiff;
+
+            console.log('OOOOOOOOOOOOOOOOOOOOOOOO');
             console.log('x, y: ', x, y);
             console.log('distance: ', distance);
+            console.log('prev_time: ', prev_time);
             console.log('time: ', time);
             console.log('time diff: ', timeDiff);
             console.log('speed: ', speed);
+            console.log('pressure: ', event.pressure);
+            console.log('tangentialPressure: ', event.tangentialPressure);
+            console.log('tiltX: ', event.tiltX);
+            console.log('tiltY: ', event.tiltY);
+            console.log('twist: ', event.twist);
+            console.log('pointer type: ', event.pointerType);
+            console.log('time stamp: ', event.timeStamp);
+
             ctx.lineTo(x, y);
             ctx.stroke();
 
@@ -47,11 +58,15 @@
             prev_time = time;
         });
 
-        canvas.addEventListener('mouseup', function() {
+        canvas.addEventListener('pointerup', function() {
             isDrawing = false;
         });
 
-        canvas.addEventListener('mouseleave', function() {
+        canvas.addEventListener('pointerup', function() {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener('pointerleave', function() {
             isDrawing = false;
         });
     });
