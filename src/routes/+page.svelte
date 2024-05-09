@@ -4,6 +4,7 @@
 
     let x: any = 0;
     let y: any = 0;
+    let real_time: any = 0;
     let time: any = 0;
     let real_speed: any = 0;
     let speed: any = 0;
@@ -23,6 +24,9 @@
             alert('Canvas Context is null')
             throw new Error("Context is null");
         }
+
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
 
         let prev_x: number = 0;
         let prev_y: number = 0;
@@ -44,7 +48,8 @@
             if (!isDrawing) return;
             x = event.clientX - canvas.offsetLeft;
             y = event.clientY - canvas.offsetTop;
-            time = event.timeStamp;
+            real_time = event.timeStamp;
+            time = event.timeStamp.toFixed(4);
             const distance = Math.sqrt(Math.pow(x - prev_x, 2) + Math.pow(y - prev_y, 2)); 
             const timeDiff = time - prev_time;
             real_speed = distance / timeDiff;
@@ -59,7 +64,7 @@
             signatureData.push([
                 x,
                 y,
-                time,
+                real_time,
                 real_speed,
                 real_pressure,
                 tiltX,
@@ -139,14 +144,16 @@
 </script>
 
 <div class="container">
-    <div class="sign_here">Sign here</div>
-    <div class="buttons_container">
-        <button on:click={clearCanvas}>clear canvas</button>
-        <button on:click={generateCsv}>generate csv</button>
-    </div>
     <canvas width="800" height="400">
         Your browser does not support the HTML5 canvas element.
     </canvas>
+    <div class="header">
+        <div class="sign_here">Sign here</div>
+        <div class="buttons_container">
+            <button on:click={clearCanvas}>clear canvas</button>
+            <button on:click={generateCsv}>generate csv</button>
+        </div>
+    </div>
     <div class="information_container">
         <div class="x_container">
             x: <span class="x_value" contenteditable="plaintext-only" bind:innerText={x}>0</span>
@@ -176,7 +183,15 @@
 </div>
 
 <style>
+
+    :global(body), :global(html) {
+        width:  100%;
+        height: 100%;
+        margin: 0;
+    }
+
     .container {
+        position: fixed;
         display: flex;
         gap: 10px;
         align-items: center;
@@ -186,22 +201,42 @@
         width: 100%;
     }
 
+    
+    canvas {
+        -webkit-user-drag: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        touch-action: none;
+        cursor: crosshair;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    
     .sign_here {
         font-weight: bold;
         font-size: 50px;
         margin: 30px 0;
+        padding: 15px;
     }
 
-    canvas {
-        border: 1px solid #000;
-        cursor: crosshair;
+    .buttons_container {
+        padding: 15px;
     }
 
     .information_container {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
-        max-width: 750px;
+        /* max-width: 750px; */
+        position: absolute;
+        bottom: 0;
     }
 
     .information_container > * {
