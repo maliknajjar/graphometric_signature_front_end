@@ -221,12 +221,14 @@
     
     .sign_here {
         font-weight: bold;
-        font-size: 50px;
+        font-size: 25px;
         margin: 30px 0;
         padding: 15px;
     }
 
     .buttons_container {
+        display: flex;
+        gap: 5px;
         padding: 15px;
     }
 
