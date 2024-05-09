@@ -222,7 +222,7 @@
     .sign_here {
         font-weight: bold;
         font-size: 25px;
-        margin: 30px 0;
+        padding: 10px;
         padding: 15px;
     }
 
